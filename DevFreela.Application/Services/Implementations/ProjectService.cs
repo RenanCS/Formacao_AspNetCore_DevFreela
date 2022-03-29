@@ -1,7 +1,6 @@
 ﻿using DevFreela.Application.InputModels;
 using DevFreela.Application.Services.Interfaces;
 using DevFreela.Application.ViewModels;
-using DevFreela.Core.Entities;
 using DevFreela.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -16,37 +15,20 @@ namespace DevFreela.Application.Services.Implementations
         {
             _dbContext = dbContext;
         }
-        public int Create(NewProjectInputModel inputModel)
-        {
-            var project = new Project(inputModel.Title, inputModel.Description, inputModel.IdClient, inputModel.IdFreelancer, inputModel.TotalCost); ;
-            _dbContext.Projects.Add(project);
-            return project.Id;
-        }
-
-        public void CreateComment(CreateCommentInputModel inputModel)
-        {
-            var comment = new ProjectComment(inputModel.Content, inputModel.IdProject, inputModel.IdUser);
-            _dbContext.ProjectComments.Add(comment);
-            _dbContext.SaveChanges();
-        }
-
-        public void Delete(int id)
-        {
-            var project = _dbContext.Projects.SingleOrDefault(projectDb => projectDb.Id == id);
-            project.Cancel();
-            _dbContext.SaveChanges();
-        }
 
         public void Finish(int id)
         {
             var project = _dbContext.Projects.SingleOrDefault(projectDb => projectDb.Id == id);
+
             project.Finish();
+
             _dbContext.SaveChanges();
         }
 
         public List<ProjectViewModel> GetAll(string query)
         {
             var projects = _dbContext.Projects;
+
             return projects
                 .Select(projectVM => new ProjectViewModel(projectVM.Id, projectVM.Title, projectVM.CreatedAt))
                 .ToList();
@@ -77,13 +59,16 @@ namespace DevFreela.Application.Services.Implementations
         public void Start(int id)
         {
             var project = _dbContext.Projects.SingleOrDefault(projectDb => projectDb.Id == id);
+
             project.Start();
+
             _dbContext.SaveChanges();
         }
 
         public void Update(UpdateProjectInputModel inputModel)
         {
             var project = _dbContext.Projects.SingleOrDefault(projectDb => projectDb.Id == inputModel.Id);
+
             project.Update(inputModel.Title, inputModel.Description, inputModel.TotalCost);
 
             _dbContext.SaveChanges();
