@@ -57,11 +57,6 @@ namespace DevFreela.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateProjectCommand command)
         {
-            if (command.Title.Length > 50)
-            {
-                return BadRequest();
-            }
-
             var id = await _mediator.Send(command);
 
             return CreatedAtAction(nameof(GetByIdAsync), new { id = id }, command);
@@ -70,10 +65,6 @@ namespace DevFreela.API.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] UpdateProjectInputModel inputModel)
         {
-            if (inputModel.Description.Length > 200)
-            {
-                return BadRequest();
-            }
 
             _projectService.Update(inputModel);
 
