@@ -1,9 +1,10 @@
 ﻿using DevFreela.Application.InputModels;
+using System.Threading.Tasks;
 
 namespace DevFreela.Application.Services.Interfaces
 {
     public interface IUserService
     {
-        int Create(CreateUserInputModel inputModel);
+        Task<int> CreateAsync(CreateUserInputModel inputModel);
     }
 }
