@@ -1,4 +1,5 @@
 ﻿using DevFreela.API.Models;
+using DevFreela.Application.Commands.LoginUser;
 using DevFreela.Application.InputModels;
 using DevFreela.Application.Queries.GetUser;
 using DevFreela.Application.Services.Interfaces;
@@ -21,7 +22,7 @@ namespace DevFreela.API.Controllers
 
         // api/users/1
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetByIdAsync(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             var getUserById = new GetUserById(id);
 
@@ -41,16 +42,22 @@ namespace DevFreela.API.Controllers
         {
             var id = await _userService.CreateAsync(inputModel);
 
-            return CreatedAtAction(nameof(GetByIdAsync), new { id = id }, inputModel);
+            return CreatedAtAction(nameof(GetById), new { id = id }, inputModel);
         }
 
         // api/users/1/login
-        [HttpPut("{id}/login")]
-        public IActionResult Login(int id, [FromBody] LoginModel login)
+        [HttpPut("/login")]
+        public async Task<IActionResult> Login([FromBody] LoginUserCommand command)
         {
-            // TODO: Para Módulo de Autenticação e Autorização
+            var loginUserViewMovel = await _mediator.Send(command);
 
-            return NoContent();
+            if (loginUserViewMovel == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(loginUserViewMovel);
+
         }
     }
 }
