@@ -1,5 +1,4 @@
-﻿using DevFreela.API.Models;
-using DevFreela.Application.Commands.LoginUser;
+﻿using DevFreela.Application.Commands.LoginUser;
 using DevFreela.Application.InputModels;
 using DevFreela.Application.Queries.GetUser;
 using DevFreela.Application.Services.Interfaces;
