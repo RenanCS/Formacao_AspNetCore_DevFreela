@@ -24,7 +24,7 @@ namespace DevFreela.Payments.API.Controllers
                 return BadRequest();
             }
 
-            return Ok(result);
+            return NoContent();
         }
 
     }
