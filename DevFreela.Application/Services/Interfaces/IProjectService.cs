@@ -1,4 +1,6 @@
 ﻿using DevFreela.Application.InputModels;
+using DevFreela.Core.DTO;
+using System.Threading.Tasks;
 
 namespace DevFreela.Application.Services.Interfaces
 {
@@ -6,7 +8,7 @@ namespace DevFreela.Application.Services.Interfaces
     {
         void Update(UpdateProjectInputModel inputModel);
         void Start(int id);
-        void Finish(int id);
+        Task<bool> Finish(PaymentInfoDTO paymentInfoDTO);
 
     }
 }
