@@ -3,7 +3,6 @@ using DevFreela.Application.Services.Interfaces;
 using DevFreela.Core.Entities;
 using DevFreela.Core.Repositories;
 using DevFreela.Core.Service;
-using DevFreela.Infrastructure.Persistence;
 using System.Threading.Tasks;
 
 namespace DevFreela.Application.Services.Implementations
