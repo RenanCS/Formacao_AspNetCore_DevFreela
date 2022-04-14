@@ -1,18 +1,6 @@
-using DevFreela.API.Filter;
+using DevFreela.API.Extensions;
 using DevFreela.API.Models;
-using DevFreela.Application.Commands.CreateProject;
-using DevFreela.Application.Services.Implementations;
-using DevFreela.Application.Services.Interfaces;
-using DevFreela.Application.Validators;
-using DevFreela.Core.Repositories;
-using DevFreela.Core.Service;
-using DevFreela.Infrastructure.Auth;
-using DevFreela.Infrastructure.Payments;
 using DevFreela.Infrastructure.Persistence;
-using DevFreela.Infrastructure.Persistence.Repositories;
-using DevFreela.Infrastructure.Services;
-using FluentValidation.AspNetCore;
-using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -42,32 +30,16 @@ namespace DevFreela.API
             services.Configure<OpenignTimeOption>(Configuration.GetSection("OpeningTime"));
 
             var connectionsString = Configuration.GetConnectionString("DevFreelaCS");
-
             services.AddDbContext<DevFreelaDbContext>(
                 options => options.UseSqlServer(connectionsString));
 
             //services.AddDbContext<DevFreelaDbContext>(
             //    options => options.UseInMemoryDatabase("DevFreela"));
 
-            services.AddHttpClient();
 
-            services.AddScoped<IProjectService, ProjectService>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IPaymentService, PaymentService>();
-
-            services.AddScoped<IProjectRepository, ProjectRepository>();
-            services.AddScoped<ISkillRepository, SkillRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IProjectCommentRepository, ProjectCommentRepository>();
-
-            services.AddControllers(
-                options => options.Filters.Add(typeof(ValidationFilter))
-                )
-                .AddFluentValidation(fluentValidation =>
-            fluentValidation.RegisterValidatorsFromAssemblyContaining<CreateUserInputModelValidator>());
-
-            services.AddMediatR(typeof(CreateProjectCommand));
+            services.AddApplication();
+            services.AddInfrastructure();
+            services.AddValidators();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

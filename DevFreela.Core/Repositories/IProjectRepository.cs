@@ -11,7 +11,7 @@ namespace DevFreela.Core.Repositories
 
         public Task<Project> GetProjectByIdAsync(int id);
         public Task CreateProjectAsync(Project project);
-
         public Task DeleteProjectAsync(int id);
+        public Task SaveChangesAsync();
     }
 }

@@ -9,6 +9,7 @@ namespace DevFreela.Application.Services.Interfaces
         void Update(UpdateProjectInputModel inputModel);
         void Start(int id);
         Task<bool> Finish(PaymentInfoDTO paymentInfoDTO);
+        Task FinishMessageBus(PaymentInfoDTO paymentInfoDTO);
 
     }
 }

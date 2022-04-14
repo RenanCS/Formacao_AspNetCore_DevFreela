@@ -1,8 +1,8 @@
 ﻿using DevFreela.Application.InputModels;
 using DevFreela.Application.Services.Interfaces;
 using DevFreela.Core.DTO;
+using DevFreela.Core.Services;
 using DevFreela.Infrastructure.Persistence;
-using DevFreela.Infrastructure.Services;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -34,6 +34,17 @@ namespace DevFreela.Application.Services.Implementations
             await _dbContext.SaveChangesAsync();
 
             return result;
+        }
+
+        public async Task FinishMessageBus(PaymentInfoDTO paymentInfoDTO)
+        {
+            var project = _dbContext.Projects.SingleOrDefault(projectDb => projectDb.Id == paymentInfoDTO.IdProejct);
+
+            _paymentService.ProcessPaymentMessageBus(paymentInfoDTO);
+
+            project.SetPaymentPending();
+
+            await _dbContext.SaveChangesAsync();
         }
 
         public void Start(int id)

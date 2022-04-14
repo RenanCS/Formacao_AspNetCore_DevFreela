@@ -6,6 +6,7 @@ using DevFreela.Application.InputModels;
 using DevFreela.Application.Queries.GetAllProjects;
 using DevFreela.Application.Queries.GetProjectById;
 using DevFreela.Application.Services.Interfaces;
+using DevFreela.Core.DTO;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -106,13 +107,22 @@ namespace DevFreela.API.Controllers
             return NoContent();
         }
 
-        [HttpPut("{id}/finish")]
+        [HttpPut("finish")]
         [Authorize(Roles = "client")]
-        public IActionResult Finish(int id)
+        public IActionResult Finish([FromBody] PaymentInfoDTO paymentInfoDTOid)
         {
-            _projectService.Finish(id);
+            _projectService.Finish(paymentInfoDTOid);
 
             return NoContent();
+        }
+
+        [HttpPut("finishMessageBus")]
+        [Authorize(Roles = "client")]
+        public IActionResult FinishMessageBus([FromBody] PaymentInfoDTO paymentInfoDTOid)
+        {
+            _projectService.FinishMessageBus(paymentInfoDTOid);
+
+            return Accepted();
         }
     }
 }
