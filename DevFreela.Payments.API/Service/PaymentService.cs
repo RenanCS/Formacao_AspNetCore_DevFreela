@@ -9,5 +9,10 @@ namespace DevFreela.Payments.API.Service
         {
             return Task.FromResult(true);
         }
+
+        public void ProcessMessageBus(PaymentInfoInputModel paymentInfoInputModel)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
